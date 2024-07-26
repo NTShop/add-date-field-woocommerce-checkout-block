@@ -24,8 +24,47 @@ class Checkout_Block_Example {
         add_action( 'woocommerce_store_api_checkout_update_order_from_request', array( $this, 'orddd_update_block_order_meta_delivery_date' ), 10, 2 );
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'display_delivery_date_on_admin_order_details' ) );
         add_action( 'woocommerce_order_details_after_order_table_items', array( $this, 'display_delivery_date_on_thankyou_page' ) );
-    }
 
+        add_action( 'wp_footer', array( &$this, 'load_datepicker' ) );
+    }
+ 
+    public function load_datepicker() {
+         
+        $checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
+
+        if ( ! is_page( $checkout_page_id ) ) { 
+           // return;
+        }
+
+        wp_enqueue_style( 'jquery-ui-datepicker-style' , '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css');
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        ?>
+        <script>
+        jQuery( document ).ready( function( $ ) {
+            
+            setTimeout( function() {
+                console.log( 'DATE -------------------------------------' );
+                // Test to exclude specific dates from the date picker:
+                var dates = ['2024-07-31', '2024-07-26'];
+                $( '.xorddd-xdatepicker' ).datepicker({
+                    beforeShowDay: function( date ) {
+                        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                        return [dates.indexOf(string) == -1];
+                    },
+                    /*
+                    onSelect(dateText) {
+                        $( '.xorddd-xdatepicker' ).trigger( 'change' );
+                    }
+                    */
+                }
+                );
+            }, 1000 );
+        });
+        </script>
+        <?php 
+    }
+ 
     public function orddd_update_block_order_meta_delivery_date( $order, $request ) {
         $data = isset( $request['extensions']['checkout-block-example'] ) ? $request['extensions']['checkout-block-example'] : array();
 
