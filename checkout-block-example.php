@@ -54,7 +54,7 @@ class Checkout_Block_Example {
                     },
                     /*
                     onSelect(dateText) {
-                        $( '.xorddd-xdatepicker' ).trigger( 'change' );
+                        $( '.orddd-datepicker' ).trigger( 'change' );
                     }
                     */
                 }
