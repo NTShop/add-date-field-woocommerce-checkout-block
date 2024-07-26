@@ -22,7 +22,7 @@ const Block = ({ checkoutExtensionData }) => {
         <div className={'example-fields'}>
             <label htmlFor="delivery-date">Choose your delivery date:</label>
             <input
-                type="date"
+                type="text" // "date"
                 id="delivery-date"
                 className={'orddd-datepicker'}
                 placeholder={''}
